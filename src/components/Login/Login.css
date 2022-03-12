@@ -1,0 +1,27 @@
+input {
+    outline: none;
+    margin-left: 15px;
+    background-color: transparent;
+}
+
+.Sectionh {
+    height: 95vh;
+}
+
+.border_bottom {
+    border-bottom: 2px solid rgb(180, 178, 178);
+}
+
+.container {
+    font-family: monospace;
+    font-size: large;
+}
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+.rborder {
+    border: soild 2px red;
+    ;
+}

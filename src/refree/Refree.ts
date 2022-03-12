@@ -1,42 +1,47 @@
-import { PieceType, TeamType, Piece } from "../components/Chessboard/Chessboard";
+import { PieceType, TeamType, Piece, Position, samePosition } from "../Constants";
+import { PawnMovement, KnightMovement, BishopMovement, RookMovement, QueenMovement, KingMovement } from './rules';
 
 export default class Refree{
 
-    IsTileOccupied(x: number, y:number, boardState : Piece[] ) : boolean{
-        const piece = boardState.find(p => p.x === x && p.y === y)
-
-        if(piece){
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-
-    IsValidMove(px : number, py : number, x: number, y: number, type : PieceType, team: TeamType, boardState: Piece[]){
-        console.log("refree checking the move");
-        console.log("prev loc : "+px+py);
-        console.log("new loc : "+x+y);
-        console.log("type :"+type);
-        console.log("team : "+team);
+    IsEnPassantMove(initialPosition: Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState: Piece[]) : boolean{
+        const pawnDirection = (team === TeamType.OUR)? 1 : -1;
 
         if(type === PieceType.PAWN){
-            const pawnRow = (team === TeamType.OUR)? 1 : 6;
-            const pawnDirection = (team === TeamType.OUR)? 1 : -1;
-
-            if(px === x && py === pawnRow && y-py === 2*pawnDirection){
-                if(!this.IsTileOccupied(x,y,boardState) && !this.IsTileOccupied(x,y-pawnDirection,boardState)){
+            if((desiredPosition.x-initialPosition.x === -1 || desiredPosition.x-initialPosition.x === 1) && desiredPosition.y-initialPosition.y === pawnDirection){
+                const piece = boardState.find(p => p.position.x === desiredPosition.x && p.position.y === desiredPosition.y-pawnDirection && p.enPassant);   
+                if(piece){
                     return true;
-                }
-            }else if(px === x && y-py === pawnDirection){
-                if(!this.IsTileOccupied(x,y,boardState)){
-                    return true;
-                }
+                }                           
             }
         }
-
         
         return false;
+    }
+
+    IsValidMove(initialPosition: Position, desiredPosition: Position, type : PieceType, team: TeamType, boardState: Piece[]){
+        let validMove= false;
+
+        switch(type){
+            case PieceType.PAWN:    
+                validMove = PawnMovement(initialPosition, desiredPosition,type, team, boardState);
+                break;
+            case PieceType.KNIGHT:
+                validMove = KnightMovement(initialPosition, desiredPosition,type, team, boardState);
+                break;
+            case PieceType.BISHOP:
+                validMove = BishopMovement(initialPosition, desiredPosition,type, team, boardState);
+                break;
+            case PieceType.ROOK:
+                validMove = RookMovement(initialPosition, desiredPosition,type, team, boardState);
+                break;     
+            case PieceType.QUEEN:
+                validMove = QueenMovement(initialPosition, desiredPosition,type, team, boardState);
+                break;    
+            case PieceType.KING:
+                validMove = KingMovement(initialPosition, desiredPosition,type, team, boardState);
+                break;        
+        }
+        return validMove;
     }
 }
 
