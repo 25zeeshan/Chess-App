@@ -1,5 +1,6 @@
 import { PieceType, TeamType, Piece, Position, samePosition } from "../Constants";
 import { PawnMovement, KnightMovement, BishopMovement, RookMovement, QueenMovement, KingMovement } from './rules';
+import { IsTileOccupied } from "./rules/Generalrules";
 
 export default class Refree{
 
@@ -15,6 +16,31 @@ export default class Refree{
             }
         }
         
+        return false;
+    }
+
+    IsCastle(initialPosition : Position, desiredPosition: Position, type: PieceType, team: TeamType, boardState : Piece[]){
+        const currentPiece = boardState.find(p => p.position.x === initialPosition.x && p.position.y === initialPosition.y);
+
+        if(type === PieceType.KING && !currentPiece?.hasMoved){
+            const cornerPiece = boardState.find(p => p.position.x === desiredPosition.x && p.position.y === desiredPosition.y && p.type === PieceType.ROOK && !p.hasMoved);
+            
+            if((desiredPosition.x === 0 || desiredPosition.x === 7) && desiredPosition.y === initialPosition.y && cornerPiece){
+                const direction = (desiredPosition.x < initialPosition.x) ? -1 : 1;
+                const tilesInbetween = (desiredPosition.x < initialPosition.x) ? 3 : 2;
+                let emptyTiles = 0;
+
+                for(let i=1; i<=tilesInbetween; i++){
+                    let PassedPosition:Position = {x : initialPosition.x + i*direction, y : initialPosition.y};
+                    
+                    if(IsTileOccupied(PassedPosition,boardState)){
+                        break;
+                    }
+                    emptyTiles++;
+                }
+                return emptyTiles === tilesInbetween;
+            }
+        }
         return false;
     }
 

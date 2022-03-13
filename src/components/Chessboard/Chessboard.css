@@ -4,10 +4,13 @@
     grid-template-rows: repeat(8, 50px);
     height: 400px;
     width: 400px;
+    position: relative;
 }
 
 #pawn-promotion-modal {
     position: absolute;
+    background-color: rgba(0, 0, 0, 0.3);
+    height: 100%;
     top: 0px;
     bottom: 0px;
     left: 0px;
