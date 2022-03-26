@@ -4,7 +4,9 @@ import Tile from '../Tile/Tile';
 import React, { useRef, useState } from 'react';
 import Refree from '../../refree/Refree';
 
-import { VERTICAL_AXIS, HORIZONTAL_AXIS, GRID_SIZE, Piece, PieceType, InitialBoardState, Position, samePosition, TeamType } from '../../Constants';
+import { Piece, PieceType, InitialBoardState, Position, samePosition, TeamType } from '../../Constants';
+
+import { VERTICAL_AXIS, HORIZONTAL_AXIS, BOARD_SIZE, GRID_SIZE, PIECE_SIZE }  from '../../Constants';
 
 export default function Chessboard(props: any){
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null);
@@ -22,11 +24,11 @@ export default function Chessboard(props: any){
         if(element.classList.contains('chess-piece') && chessboard){
             setGrabPosition({
                 x: Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE), 
-                y: Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 400) / GRID_SIZE)) 
+                y: Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - BOARD_SIZE) / GRID_SIZE)) 
             });
 
-            const x = e.clientX - chessboard.offsetLeft - GRID_SIZE/2;
-            const y = e.clientY - chessboard.offsetTop -  GRID_SIZE/2;
+            const x = e.clientX - chessboard.offsetLeft - (PIECE_SIZE/2 + PIECE_SIZE/4);
+            const y = e.clientY - chessboard.offsetTop - (PIECE_SIZE/2 + PIECE_SIZE/4);
             
             element.style.position = 'absolute';
             element.style.left = `${x}px`;
@@ -44,11 +46,11 @@ export default function Chessboard(props: any){
                   
             const minX = 0;
             const minY = 0;
-            const maxX = chessboard.clientHeight - 40;
-            const maxY = chessboard.clientHeight - 40;
+            const maxX = chessboard.clientHeight - PIECE_SIZE;
+            const maxY = chessboard.clientHeight - PIECE_SIZE;
 
-            const x = e.clientX - chessboard.offsetLeft - 20;
-            const y = e.clientY - 20;
+            const x = e.clientX - chessboard.offsetLeft - (PIECE_SIZE/2 + PIECE_SIZE/4);
+            const y = e.clientY - chessboard.offsetTop - (PIECE_SIZE/2 + PIECE_SIZE/4);
 
             activePiece.style.position = 'absolute';
 
@@ -74,7 +76,7 @@ export default function Chessboard(props: any){
         const chessboard = chessboardRef.current;
         if(activePiece && chessboard){
             const x = Math.floor((e.clientX - chessboard.offsetLeft) / GRID_SIZE);
-            const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - 400) / GRID_SIZE));
+            const y = Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - BOARD_SIZE) / GRID_SIZE));
             
             const currentPiece = pieces.find(p => samePosition(p.position, grabPosition));
 
@@ -212,7 +214,10 @@ export default function Chessboard(props: any){
             const piece = pieces.find(p => samePosition(p.position, {x: i, y: j}));
             let image = piece ? piece.image : undefined;
 
-            board.push(<Tile key={`${j},${i}`} number={num} image={image}/>);
+            const numericNotation = i==0 ? VERTICAL_AXIS[j] : '';
+            const alphabetNotaion = j==0 ? HORIZONTAL_AXIS[i] : '';
+
+            board.push(<Tile key={`${j},${i}`} number={num} image={image} numericNotation={numericNotation} alphabetNotaion={alphabetNotaion} />);
         }
     }
 

@@ -1,10 +1,10 @@
 #chessboard {
     display: grid;
-    grid-template-columns: repeat(8, 50px);
-    grid-template-rows: repeat(8, 50px);
-    height: 400px;
-    width: 400px;
+    grid-template-columns: repeat(8, var(--tileHeight));
+    grid-template-rows: repeat(8, var(--tileHeight));
     position: relative;
+    margin: 20px;
+    border: 10px solid gray;
 }
 
 #pawn-promotion-modal {
@@ -23,9 +23,9 @@
 
 #pawn-promotion-modal .modal-body {
     position: absolute;
-    top: 150px;
-    height: 100px;
-    width: 400px;
+    top: calc(var(--boardHeight)/3);
+    height: calc(var(--boardHeight)/4);
+    width: var(--boardHeight);
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: space-around;

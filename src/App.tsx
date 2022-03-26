@@ -1,9 +1,9 @@
-import {BrowserRouter as Router,Routes,Route,Link} from'react-router-dom';
-
-import Chessboard from './components/Chessboard/Chessboard';
+import {BrowserRouter as Router,Routes,Route} from'react-router-dom';
 import Controller from './components/Controller/Controller';
 import Login from './components/Login/Login';
 import Signup from './components/SignUp/Signup';
+
+import "./App.css";
 
 function App() {
   return (

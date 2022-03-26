@@ -1,8 +1,8 @@
  .tile {
      display: grid;
      place-content: center;
-     width: 50px;
-     height: 50px;
+     width: var(--tileHeight);
+     height: var(--tileHeight);
  }
  
  .white-tile {
@@ -14,11 +14,11 @@
  }
  
  .tile .chess-piece {
-     width: 40px;
-     height: 40px;
+     width: var(--pieceHeight);
+     height: var(--pieceHeight);
      background-repeat: no-repeat;
      background-position: center;
-     background-size: 40px;
+     background-size: var(--pieceHeight);
  }
  
  .tile .chess-piece:hover {
@@ -27,8 +27,44 @@
  
  .tile .chess-piece:active {
      cursor: grabbing;
+     z-index: 100;
  }
  
  .tile img {
-     width: 40px;
+     width: var(--pieceHeight);
+ }
+ 
+ .numeric-notation,
+ .alphabet-notation {
+     position: absolute;
+     cursor: default;
+     z-index: 50;
+     font-size: var(--notationFont);
+ }
+ 
+ .black-tile .numeric-notation {
+     color: white;
+ }
+ 
+ .black-tile .alphabet-notation {
+     color: white;
+ }
+ 
+ .white-tile .numeric-notation,
+ .alphabet-notation {
+     color: #696868;
+ }
+ 
+ .alphabet-notation::selection,
+ .numeric-notation::selection {
+     background-color: transparent;
+ }
+ 
+ .alphabet-notation {
+     margin-top: calc(var(--tileHeight) * 0.8 - var(--notationFont));
+     margin-left: calc(var(--tileHeight) * 0.8);
+ }
+ 
+ .numeric-notation {
+     margin-left: 4px;
  }

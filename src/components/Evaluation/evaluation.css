@@ -1,0 +1,7 @@
+#evaluation {
+    height: calc(var(--boardHeight) + 20px);
+    width: 20px;
+    border: 1px solid;
+    border-radius: 2px;
+    padding-top: calc(calc(var(--boardHeight))/2);
+}
