@@ -1,7 +1,12 @@
 :root {
     --screenHeight: 100vh;
+    --screenWidth: 100vw;
     --boardHeight: 80vh;
     --tileHeight: 10vh;
     --pieceHeight: 8vh;
     --notationFont: 2vh;
+}
+
+body {
+    background: #312e2b;
 }

@@ -4,7 +4,6 @@
     grid-template-rows: repeat(8, var(--tileHeight));
     position: relative;
     margin: 20px;
-    border: 10px solid gray;
 }
 
 #pawn-promotion-modal {

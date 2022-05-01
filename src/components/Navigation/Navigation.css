@@ -1,0 +1,5 @@
+#navigation {
+    width: calc(var(--screenWidth)/5);
+    height: var(--screenHeight);
+    background: #272522;
+}

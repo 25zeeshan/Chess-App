@@ -4,19 +4,33 @@ import Tile from '../Tile/Tile';
 import React, { useRef, useState } from 'react';
 import Refree from '../../refree/Refree';
 
-import { Piece, PieceType, InitialBoardState, Position, samePosition, TeamType } from '../../Constants';
+import { IsEnPassant, IsCastles } from '../../refree/rules';
+
+import { InitialBoardState, Piece, PieceType, Position, samePosition, TeamType } from '../../Constants';
 
 import { VERTICAL_AXIS, HORIZONTAL_AXIS, BOARD_SIZE, GRID_SIZE, PIECE_SIZE }  from '../../Constants';
 
 export default function Chessboard(props: any){
     const [activePiece, setActivePiece] = useState<HTMLElement | null>(null);
     const [grabPosition, setGrabPosition] = useState<Position>({x: -1, y: -1});
-    const [pieces, setPieces] = useState<Piece[]>(InitialBoardState);
+    const pieces : Piece[] = JSON.parse(JSON.stringify(props.boardState));
+    var currentMove = props.boardStateIndex%2 === 0 ? TeamType.OUR : TeamType.OPPONENT;
+
     const [promotionPawn, setPromotionPawn] = useState<Piece>();
+
+    
+
+    const [HalfMoves,setHalfMoves] = useState<Number>(0);
+    const [FullMoves, setFullMoves] = useState<Number>(1);
 
     const refree = new Refree();
     const chessboardRef = useRef<HTMLDivElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
+
+    //console.log(props.boardState);
+    //console.log(props.boardStateIndex);
+    
+    
 
     function grabPiece(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         const element = e.target as HTMLElement;
@@ -27,8 +41,8 @@ export default function Chessboard(props: any){
                 y: Math.abs(Math.ceil((e.clientY - chessboard.offsetTop - BOARD_SIZE) / GRID_SIZE)) 
             });
 
-            const x = e.clientX - chessboard.offsetLeft - (PIECE_SIZE/2 + PIECE_SIZE/4);
-            const y = e.clientY - chessboard.offsetTop - (PIECE_SIZE/2 + PIECE_SIZE/4);
+            const x = e.clientX - chessboard.offsetLeft - (PIECE_SIZE/2);
+            const y = e.clientY - chessboard.offsetTop - (PIECE_SIZE/2);
             
             element.style.position = 'absolute';
             element.style.left = `${x}px`;
@@ -49,8 +63,8 @@ export default function Chessboard(props: any){
             const maxX = chessboard.clientHeight - PIECE_SIZE;
             const maxY = chessboard.clientHeight - PIECE_SIZE;
 
-            const x = e.clientX - chessboard.offsetLeft - (PIECE_SIZE/2 + PIECE_SIZE/4);
-            const y = e.clientY - chessboard.offsetTop - (PIECE_SIZE/2 + PIECE_SIZE/4);
+            const x = e.clientX - chessboard.offsetLeft - (PIECE_SIZE/2);
+            const y = e.clientY - chessboard.offsetTop - (PIECE_SIZE/2);
 
             activePiece.style.position = 'absolute';
 
@@ -82,13 +96,14 @@ export default function Chessboard(props: any){
 
             if(currentPiece){
 
-                const validMove = refree.IsValidMove(grabPosition,{x,y}, currentPiece.type, currentPiece.team, pieces);
-                const IsEnPassantMove = refree.IsEnPassantMove(grabPosition,{x,y},currentPiece.type,currentPiece.team,pieces);
-                const IsCastle = refree.IsCastle(grabPosition, {x,y}, currentPiece.type, currentPiece.team, pieces);
+                const validMove = refree.IsValidMove(grabPosition,{x,y}, currentPiece.type, currentPiece.team, pieces, currentMove);
+                const IsEnPassantMove:boolean = IsEnPassant(grabPosition,{x,y},currentPiece.type,currentPiece.team,pieces, currentMove);
+                const IsCastle = IsCastles(grabPosition, {x,y}, currentPiece.type, currentPiece.team, pieces, currentMove);
 
                 const pawnDirection = (currentPiece.team === TeamType.OUR)? 1 : -1;
 
                 if(IsCastle){
+                    const updatedCurrentMove = currentMove === TeamType.OUR? TeamType.OPPONENT : TeamType.OUR;
                     const updatedPieces = pieces.reduce((results,piece) => {
 
                         if(samePosition(piece.position, grabPosition)){
@@ -107,8 +122,11 @@ export default function Chessboard(props: any){
                         return results;
                     },[] as Piece[]);
 
-                    setPieces(updatedPieces);
+                    //setPieces(updatedPieces);
+                    //setCurrentMove(updatedCurrentMove);
+                    props.BoardController(updatedPieces, updatedCurrentMove);
                 }else if(IsEnPassantMove){
+                    const updatedCurrentMove = currentMove === TeamType.OUR? TeamType.OPPONENT : TeamType.OUR;
                     const updatedPieces = pieces.reduce((results, piece) => {
                         if(samePosition(piece.position,grabPosition)){
                             piece.position.x=x;
@@ -124,8 +142,11 @@ export default function Chessboard(props: any){
                         return results;
                     }, [] as Piece[]);
 
-                    setPieces(updatedPieces);
+                    //setPieces(updatedPieces);
+                    //setCurrentMove(updatedCurrentMove); //current color
+                    props.BoardController(updatedPieces, updatedCurrentMove);
                 }else if(validMove){
+                    const updatedCurrentMove = currentMove === TeamType.OUR? TeamType.OPPONENT : TeamType.OUR;
                     const updatedPieces = pieces.reduce((results, piece) => {
 
                         if(samePosition(piece.position, grabPosition)){
@@ -155,8 +176,10 @@ export default function Chessboard(props: any){
                         }
                         return results;
                     }, [] as Piece[]);
-
-                    setPieces(updatedPieces);
+                    
+                    //setPieces(updatedPieces);
+                    //setCurrentMove(updatedCurrentMove);
+                    props.BoardController(updatedPieces, updatedCurrentMove);
                 }else{
                     activePiece.style.position='relative';
                     activePiece.style.removeProperty('top');
@@ -198,7 +221,8 @@ export default function Chessboard(props: any){
             return results;
         }, [] as Piece[]);
 
-        setPieces(updatedPieces);
+        //setPieces(updatedPieces);
+        props.BoardController(updatedPieces, currentMove);
 
         modalRef.current?.classList.add("hidden");
     }
@@ -224,7 +248,6 @@ export default function Chessboard(props: any){
     
     return (
     <>    
-    
     <div onMouseMove={e=> movePiece(e)} onMouseDown={e=> grabPiece(e)} onMouseUp={e=>dropPiece(e)} ref={chessboardRef} id="chessboard">
         {board}
         <div id="pawn-promotion-modal" className="hidden" ref={modalRef}>
