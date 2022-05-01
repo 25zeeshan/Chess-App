@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.e2673906.css",
-    "main.js": "/static/js/main.045a92be.js",
-    "static/js/787.28b0d4c2.chunk.js": "/static/js/787.28b0d4c2.chunk.js",
-    "index.html": "/index.html",
-    "main.e2673906.css.map": "/static/css/main.e2673906.css.map",
-    "main.045a92be.js.map": "/static/js/main.045a92be.js.map",
-    "787.28b0d4c2.chunk.js.map": "/static/js/787.28b0d4c2.chunk.js.map"
+    "main.css": "/Chess-App/static/css/main.e2673906.css",
+    "main.js": "/Chess-App/static/js/main.661fe12c.js",
+    "static/js/787.28b0d4c2.chunk.js": "/Chess-App/static/js/787.28b0d4c2.chunk.js",
+    "index.html": "/Chess-App/index.html",
+    "main.e2673906.css.map": "/Chess-App/static/css/main.e2673906.css.map",
+    "main.661fe12c.js.map": "/Chess-App/static/js/main.661fe12c.js.map",
+    "787.28b0d4c2.chunk.js.map": "/Chess-App/static/js/787.28b0d4c2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.e2673906.css",
-    "static/js/main.045a92be.js"
+    "static/js/main.661fe12c.js"
   ]
 }
