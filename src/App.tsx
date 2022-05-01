@@ -8,7 +8,7 @@ import "./App.css";
 function App() {
   return (
     <div id="app">
-      <Router>
+      <Router basename={window.location.pathname || ''}>
         <Routes>
           <Route path='/' element={<Controller/>}/>
           <Route path='/Login' element={<Login/>}/>
