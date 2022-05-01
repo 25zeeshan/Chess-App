@@ -6,8 +6,6 @@ import Navigation from '../Navigation/Navigation';
 import Engine from "../Engine/Engine";
 import "./Controller.css";
 
-import { StockFish } from '../../Services/Engine';
-
 export default function Controller(){
 
     const [Eval, setEval] = useState<string>("+0.00");
