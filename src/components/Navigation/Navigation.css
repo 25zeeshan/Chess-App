@@ -3,3 +3,57 @@
     height: var(--screenHeight);
     background: #272522;
 }
+.NavbarList
+{
+    height: auto;
+    padding: 0;
+    width: 100%;
+   
+
+}
+
+.NavbarList .row{
+    width: 100%;
+    height:60px ;
+    border: 1px solid black;
+    background-color: #272522;
+    list-style-type: none;
+    margin: 0%;
+    display: flex;
+    flex-direction: row;
+    color: white;
+    justify-content:center;
+    align-items: center;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+
+}
+.NavbarList .row:hover{
+    cursor: pointer;
+    background-color: #293846;
+}
+.NavbarList #active{
+    background-color: #293846;
+}
+.row #icon{
+flex: 10%;
+display: grid;
+place-items: center;
+
+}
+
+.row #title{
+    flex:80%;
+}
+.logo{
+    width:100%;
+    height:130px;
+    background-color:white;
+    
+
+}
+.logo img{
+    width:40% ;
+    margin: 0 auto;
+    
+
+}

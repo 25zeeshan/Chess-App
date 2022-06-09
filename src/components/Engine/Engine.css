@@ -7,15 +7,58 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: calc(var(--screenWidth) * 0.3);
+}
+
+#engine .heading {
+    font-size: smaller;
+    margin: 10px;
+    text-align: right;
 }
 
 #engine .engine-inputs {
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    flex-grow: 1;
 }
 
-#engine .engine-inputs input {
+#engine .radio-inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+#engine .radio-inputs .radio {
+    width: 40%;
+    margin: 5px;
+    text-align: center;
+    background: #dbd9d7;
+    color: #666463;
+    padding: 5px 15px;
+    border-radius: 3px;
+    font-weight: bolder;
+}
+
+#engine .radio-inputs .radio.selected {
+    background: #fff;
+    color: #000;
+    border: 2px solid rgb(139, 122, 147);
+}
+
+#engine .radio-inputs .radio:hover {
+    background: #b5b3b3;
+    cursor: pointer;
+}
+
+#engine .depth-input input {
     width: 70px;
-    margin-right: 10px;
+    background-color: #fff;
+    color: #000;
+    border-radius: 3px;
+    padding: 2px;
+    font-size: 13px;
+    text-align: center;
 }
 
 #engine .engine-moves-container {

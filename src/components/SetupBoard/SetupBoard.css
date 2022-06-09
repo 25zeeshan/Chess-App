@@ -1,0 +1,113 @@
+#SetupBoard {
+    display: flex;
+    position: relative;
+}
+
+#SetupBoard .board {
+    display: grid;
+    grid-template-columns: repeat(8, var(--tileHeight));
+    grid-template-rows: repeat(8, var(--tileHeight));
+    margin: 20px;
+}
+
+.pickup {
+    background: #21201D;
+    height: calc(var(--screenHeight) - 40px);
+    color: white;
+    border-radius: 10px;
+    margin: 20px 20px 20px 0px;
+    display: flex;
+    flex-direction: column;
+    width: calc(var(--screenWidth) * 0.3);
+}
+
+.pickup .heading {
+    padding: 10px;
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.pickup .divider {
+    height: 2px;
+    background: #3c3b3a;
+}
+
+.pickup .piece-row {
+    display: flex;
+    background-color: #3f3e3d;
+    padding: 10px;
+}
+
+.pickup .to-move {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+.pickup .to-move label {
+    font-weight: bolder;
+    margin-left: 5px;
+}
+
+.pickup .castle-rights {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.pickup .castle-rights .color {
+    display: flex;
+    flex-direction: column;
+}
+
+.pick-piece {
+    display: grid;
+    place-content: center;
+    width: var(--tileHeight);
+    height: var(--tileHeight);
+}
+
+.pick-piece .chess-piece {
+    width: var(--pieceHeight);
+    height: var(--pieceHeight);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: var(--pieceHeight);
+}
+
+.pick-piece .chess-piece:hover {
+    cursor: grab;
+}
+
+.pickup .fen {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 10px;
+}
+
+.pickup .fen input {
+    border: 1px solid #737271;
+    border-radius: 4px;
+    background: #b5b3b3;
+    height: 30px;
+    width: 90%;
+    margin: 0;
+    padding: 4px 10px;
+    color: #434343;
+    align-self: center;
+}
+
+.pickup .load-btn {
+    background: rgb(127, 166, 80);
+    margin: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.pickup .load-btn:hover {
+    background: rgb(109, 144, 67);
+}

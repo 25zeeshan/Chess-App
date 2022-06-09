@@ -213,7 +213,7 @@ export default function Chessboard(props: any){
                         image = "n";break;
                 }
                 piece.image=`/assets/images/Chess_${image}${teamType}t60.png`;  
-                console.log(piece);
+                //console.log(piece);
             }
 
             results.push(piece);

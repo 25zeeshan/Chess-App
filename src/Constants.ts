@@ -89,7 +89,7 @@ export const InitialBoardState : Piece[] = [
 
 export function ProcessBestMoves(res : any, Pieces : Piece[]){
 
-    console.log(res);
+    //console.log(res);
     
     var BestMoves = [{eval: "", move:""}, {eval: "", move:""}, {eval: "", move:""}];
 
@@ -104,7 +104,45 @@ export function ProcessBestMoves(res : any, Pieces : Piece[]){
     
 }
 
-function ConvertMoveToPGN(move : string, Pieces : Piece[]){
+export function getBoardArray(Pieces: Piece[]){
+    var ptype={
+        "0":"p",
+        "1":"B",
+        "2":"N",
+        "3":"R",
+        "4":"Q",
+        "5":"K"
+    }
+
+    let mat = [
+        ['--','--','--','--','--','--','--','--'],
+        ['--','--','--','--','--','--','--','--'],
+        ['--','--','--','--','--','--','--','--'],
+        ['--','--','--','--','--','--','--','--'],
+        ['--','--','--','--','--','--','--','--'],
+        ['--','--','--','--','--','--','--','--'],
+        ['--','--','--','--','--','--','--','--'],
+        ['--','--','--','--','--','--','--','--']
+    ]
+
+    Pieces.forEach((piece) => {
+        var x = piece.position.x;
+        var y = piece.position.y;
+
+        mat[7-y][x] = piece.team === TeamType.OUR? "w" : "b";
+        mat[7-y][x] += ptype[piece.type];
+    })
+
+    //console.log(mat);
+
+    return mat;
+}
+
+export function ConvertMoveToPGN(move : string, Pieces : Piece[]){
+    if(!move){
+        return "";
+    }
+    
     var moveInPGN = "";
 
     let startPosition : Position = {
@@ -314,7 +352,7 @@ export function CalculatePositionFromFEN(fen : string){
             }
         }
     }
-    console.log(mat);
+    //console.log(mat);
 
     let boardState:Piece[] = [];
 
