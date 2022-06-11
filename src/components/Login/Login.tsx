@@ -3,6 +3,8 @@ import { NavLink } from 'react-router-dom';
 import './Login.css';
 import Signup_img from "./signup1.png";
 import google from './google-icon.png';
+import { userLogin } from "../../Services/User";
+
 
 
 export default function Login(){
@@ -11,7 +13,15 @@ export default function Login(){
 
     const submitform = (e : any) => {
         e.preventDefault();
-        console.log(email, password);
+        userLogin(email,password)
+        .then(res => {
+            
+            if(!res){
+                window.alert(res.detail);
+            }
+            localStorage.setItem('token', res.access);
+            window.location.href = '/Analysis';
+        })
     }
 
     return (
@@ -26,16 +36,16 @@ export default function Login(){
                         <NavLink to='/SignUp'><img width='100%' className='' src={Signup_img} alt='picture' border-solid border-2 border-red-600 /></NavLink>
                     </figure>
                     <NavLink to='/SignUp' className="btn font-bold ml-3 hover:underline underline-offset-2">Create an Account</NavLink>
-                    <p>or</p>
                     
+                    
+                    {/*
+                    <p>or</p>
                     <div className='flex items-cente justify-center'>
                         <p>login with</p>
                         <figure className='rounded-full'>
-                        <NavLink to='http://127.0.0.1:8000/googleLogin/'><img style={{width:25,marginLeft:10}} className='' src={google} alt='picture' border-solid border-2 border-red-600 /></NavLink>
-                    </figure>
-                        
-                   
-                    </div>
+                            <NavLink to='http://127.0.0.1:8000/googleLogin/'><img style={{width:25,marginLeft:10}} className='' src={google} alt='picture' border-solid border-2 border-red-600 /></NavLink>
+                        </figure>
+                    </div>*/}
                     
                                 
                     

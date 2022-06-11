@@ -142,6 +142,10 @@ export function ConvertMoveToPGN(move : string, Pieces : Piece[]){
     if(!move){
         return "";
     }
+    console.log(move);
+    if(move === 'Stalemate' || move === 'Black wins' || move === 'White wins'){
+        return move
+    }
     
     var moveInPGN = "";
 

@@ -1,4 +1,4 @@
-import {BrowserRouter as Router,Routes,Route} from'react-router-dom';
+import { BrowserRouter as Router,Routes,Route, Navigate} from'react-router-dom';
 import Controller from './components/Controller/Controller';
 import Login from './components/Login/Login';
 import Signup from './components/SignUp/Signup';
@@ -11,8 +11,9 @@ function App() {
     <div id="app">
       <Router>
         <Routes>
+          <Route path="/" element={<Navigate replace to="/Analysis" />}/>
           <Route path='/Setup' element={<Setup/>}/>
-          <Route path='/analysis' element={<Controller/>}/>
+          <Route path='/Analysis' element={<Controller/>}/>
           <Route path='/Login' element={<Login/>}/>
           <Route path='/SignUp' element={<Signup/>}/>
         </Routes>
