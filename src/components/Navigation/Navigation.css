@@ -30,8 +30,8 @@
     background-color: #293846;
 }
 
-.NavbarList #active {
-    background-color: #293846;
+.active {
+    background: #293846 !important;
 }
 
 .row #icon {

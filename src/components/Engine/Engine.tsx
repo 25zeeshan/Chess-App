@@ -54,12 +54,10 @@ export default function Engine(props: any){
 
 
     function getStockfishMoves(updatedFEN : string){
-        //console.log(updatedFEN);
-        console.log("called");
         trackPromise(
             StockFish(updatedFEN, depth).then(res => {
-                var updatedEval = ProcessEval(res);
-                var updatedBestMoves = ProcessBestMoves(res, props.boardState);
+                var updatedEval = ProcessEval(res, currentMove);
+                var updatedBestMoves = ProcessBestMoves(res, props.boardState, currentMove);
                 console.log(updatedBestMoves);
                 props.updateEval(updatedEval);
                 setBestMoves(updatedBestMoves);
@@ -88,11 +86,22 @@ export default function Engine(props: any){
     }
 
     function getCustomEngineMoves(updatedFEN: string){
+        const castleRights = updatedFEN.split(" ")[2];
+        let castleRightsArray = [0,0,0,0]
+        if(castleRights.includes('K')){
+            castleRightsArray[0]=1;
+        }if(castleRights.includes('k')){
+            castleRightsArray[1]=1;
+        }if(castleRights.includes('Q')){
+            castleRightsArray[2]=1;
+        }if(castleRights.includes('q')){
+            castleRightsArray[3]=1;
+        }
+        
         let boardArray = getBoardArray(props.boardState);
         trackPromise(
-            CustomEngine(boardArray, currentMove === TeamType.OUR? 'white' : 'black', updatedFEN).then(res => {
+            CustomEngine(boardArray, currentMove === TeamType.OUR? 'white' : 'black', updatedFEN, castleRightsArray).then(res => {
                 var move = ConvertMoveToPGN(res, props.boardState);
-                //console.log(move);
                 
                 setBestMoves([{move : move, eval: "0.00"}]);
             }).catch(err => console.log(err))

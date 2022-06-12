@@ -1,0 +1,45 @@
+.Privacy{
+    display: flex;
+    color: white;
+    justify-content: space-between;
+}
+
+.Privacy .privacy-content{
+    width: 80%;
+    height: 100vh;
+    overflow-y: scroll;
+    padding: 20px;
+}
+
+.Privacy .privacy-content h1{
+    font-size: 2em;
+    font-weight: bold;
+}   
+
+.Privacy .privacy-content h2{
+    font-size: 1.6em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.Privacy .privacy-content h3{
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.Privacy .privacy-content h4{
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.Privacy .privacy-content h5{
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}

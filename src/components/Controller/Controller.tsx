@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { InitialBoardState, Piece, TeamType, MoveContinuation, ProcessBestMoves, ProcessEval } from '../../Constants';
+import { InitialBoardState, Piece, TeamType, MoveContinuation, ProcessBestMoves, ProcessEval, CalculatePositionFromFEN, PieceType } from '../../Constants';
 import Chessboard from '../Chessboard/Chessboard';
 import Evaluation from '../Evaluation/Evaluation';
 import Navigation from '../Navigation/Navigation';
@@ -16,12 +16,20 @@ export default function Controller(props : any){
 
     useEffect(() => {
         if(location.state?.boardState){
-            const boardFromSetup = location.state?.boardState;
-            const currentMove = location.state?.currentMove === 'White' ? TeamType.OUR : TeamType.OPPONENT;
-            console.log(location.state?.boardState);
-            setupBoardController(boardFromSetup, currentMove);
+            let SetupFEN = location.state?.FEN
+            if(SetupFEN && SetupFEN !== ""){
+                const boardFromFEN = CalculatePositionFromFEN(SetupFEN);
+                const currentMoveFromFEN = SetupFEN.split(" ")[1] === 'w' ? TeamType.OUR : TeamType.OPPONENT;
+                
+                setupBoardController(boardFromFEN, currentMoveFromFEN);
+            }else{
+                const boardFromSetup = location.state?.boardState;
+                const currentMove = location.state?.currentMove === 'White' ? TeamType.OUR : TeamType.OPPONENT;
+                setupBoardController(boardFromSetup, currentMove);
+            }
+        }else{
+            setupBoardController(InitialBoardState, TeamType.OUR);
         }
-
         
     }, []);
 
@@ -68,7 +76,7 @@ export default function Controller(props : any){
             setBoardStateIndex(0);
         }
         if(action === 'final'){
-            console.log(boardStates);
+            //console.log(boardStates);
             
             setBoardStateIndex(boardStates.length - 1);
         }

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import './Login.css';
 import Signup_img from "./signup1.png";
 import google from './google-icon.png';
-import { userLogin } from "../../Services/User";
+import { getUserDetail, userLogin } from "../../Services/User";
 
 
 
@@ -20,7 +20,12 @@ export default function Login(){
                 window.alert(res.detail);
             }
             localStorage.setItem('token', res.access);
-            window.location.href = '/Analysis';
+
+            getUserDetail(res.access).then(user => {
+                localStorage.setItem('username', user.username)
+                window.location.href = '/Analysis';
+            })
+            
         })
     }
 
@@ -60,18 +65,18 @@ export default function Login(){
                     <form action='' onSubmit={submitform}>
                         <div className='border_bottom mb-7'>
                             <label htmlFor='first_name'><i className="zmdi zmdi-email"></i></label>
-                            <input className=" w-3/5" placeholder='Your Email' type="text" name="first_name" id="first_name" autoComplete='off'
+                            <input className=" w-4/5" placeholder='Your Email' type="text" name="first_name" id="first_name" autoComplete='off'
                                 value={email} onChange={(e) => { setEmail(e.target.value) }} />
                         </div>
 
                         <div className='border_bottom mb-3 '>
                             <label htmlFor='password'><i className="zmdi zmdi-lock"></i></label>
-                            <input className="" placeholder='Your Password' type="password" name="password" id="password" autoComplete='off'
+                            <input className="w-4/5" placeholder='Your Password' type="password" name="password" id="password" autoComplete='off'
                                 value={password} onChange={(e) => { setPassword(e.target.value) }} />
                         </div>
 
                         <div className='ml-44 flex flex justify-end items-center text-base'>
-                            <NavLink to='/'><h3>forgot password?</h3> </NavLink>
+                            <a target="_blank" href='http://localhost:8000/acc/password_reset/'><h3>forgot password?</h3> </a>
                         </div>
 
                         <div className='mt-1'>

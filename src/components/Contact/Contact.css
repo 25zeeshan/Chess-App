@@ -1,0 +1,47 @@
+.Contact{
+    display: flex;
+}
+
+.Contact h1{
+    font-size: 25px;
+    color: white;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.Contact .contact-form{
+    padding: 10%;
+}
+
+.htmlForm-group{
+    width: 400px;
+}
+
+.Contact div form .htmlForm-control{
+    color: white;
+}
+
+.Contact form label i{
+    color: white;
+    padding-left: 5px;
+    padding-bottom: 2px;
+    font-size: 1.2em;
+}
+
+.Contact form button{
+    background: rgb(127, 166, 80);
+    margin: 20px;
+    text-align: center;
+    font-weight: bold;
+    padding-top: 3px;
+    padding-bottom: 4px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 2px;
+    cursor: pointer;
+    color: white;
+}
+
+.Contact form button:hover{
+    background: rgb(88, 123, 45);
+}

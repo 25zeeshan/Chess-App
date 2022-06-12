@@ -12,20 +12,21 @@ const NavData = [
     link:"/Setup"
   },
   {
+    title:"Privacy Policy",
+    icon:<i className="zmdi zmdi-lock zmdi-hc-lg"></i>,
+    link:"/Privacy"
+  },
+  {
+    title:"About Us",
+     icon:<i className="zmdi zmdi-accounts zmdi-hc-lg"></i>,
+    link:"/About"
+  },
+  {
     title:"Contact Us",
      icon:<i className="zmdi zmdi-account-box-mail zmdi-hc-lg"></i>,
     link:"/Contact"
   },
-  {
-    title:"Settings",
-    icon:<i className="zmdi zmdi-settings-square zmdi-hc-lg"></i>,
-    link:"/Settings"
-  },
-  {
-    title:"Privacy",
-    icon:<i className="zmdi zmdi-lock zmdi-hc-lg"></i>,
-    link:"/Privacy"
-  },
+  
 ]
 
 export default NavData

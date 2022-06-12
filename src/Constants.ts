@@ -1,4 +1,3 @@
-import Decimal from "decimal.js";
 import { IsCastles, IsEnPassant } from "./refree/rules";
 
 
@@ -87,18 +86,28 @@ export const InitialBoardState : Piece[] = [
     { image : 'assets/images/Chess_plt60.png', position: { x: 7, y:1 }, type: PieceType.PAWN, team: TeamType.OUR }
 ];
 
-export function ProcessBestMoves(res : any, Pieces : Piece[]){
+export function ProcessBestMoves(res : any, Pieces : Piece[], currentMove: TeamType){
 
     //console.log(res);
-    
-    var BestMoves = [{eval: "", move:""}, {eval: "", move:""}, {eval: "", move:""}];
 
-    BestMoves[0].eval = FindEvalForMoves(res[0][0]);
-    BestMoves[0].move = ConvertMoveToPGN(res[0][0].Move, Pieces);
-    BestMoves[1].eval = FindEvalForMoves(res[0][1]);
-    BestMoves[1].move = ConvertMoveToPGN(res[0][1].Move, Pieces);
-    BestMoves[2].eval = FindEvalForMoves(res[0][2]);
-    BestMoves[2].move = ConvertMoveToPGN(res[0][2].Move, Pieces);
+    if(res[1].type === 'mate' && res[1].value === 0){
+        let Move = currentMove === TeamType.OUR? [{eval: "-0.00" , move: "Black Wins"}] : [{eval: "+0.00" , move: "White Wins"}]
+        return Move
+    }else if(res[1].type === "cp" && res[0].length === 0 && res[1].value === 0){
+        let Move = [{eval: "+0.00" , move: "Stalemate"}]
+        return Move;
+    }
+    
+    var BestMoves = [];
+
+    for(let i=0;i<res[0].length ;i++){
+        let tempbestMove = {
+            eval : FindEvalForMoves(res[0][i]),
+            move : ConvertMoveToPGN(res[0][i].Move, Pieces)
+        }
+
+        BestMoves.push(tempbestMove);
+    }
 
     return BestMoves;
     
@@ -142,7 +151,7 @@ export function ConvertMoveToPGN(move : string, Pieces : Piece[]){
     if(!move){
         return "";
     }
-    console.log(move);
+    //console.log(move);
     if(move === 'Stalemate' || move === 'Black wins' || move === 'White wins'){
         return move
     }
@@ -194,6 +203,9 @@ export function ConvertMoveToPGN(move : string, Pieces : Piece[]){
 }
 
 function FindEvalForMoves(move : any){
+    if(!move){
+        return "+0.00"
+    }
     var newEval="";
     if(move.Mate){
         newEval = (move.Mate >= 0 )? "+" : "-";
@@ -205,14 +217,17 @@ function FindEvalForMoves(move : any){
     return newEval;
 }
 
-export function ProcessEval(res: any){
-    
+export function ProcessEval(res: any, currentMove: TeamType){    
+
     var newEval="";
     if(res[1].type === 'cp'){
         newEval = (res[1].value >= 0)? "+" : "";
         newEval += (res[1].value/100).toFixed(2);
     }else if(res[1].type === 'mate'){
-        newEval = (res[1].value >= 0)? "+" : "-";
+        newEval = (res[1].value > 0)? "+" : "-";
+        if(res[1].value === 0){
+            newEval = currentMove === TeamType.OUR? "-" : "+"
+        }
         newEval += "M" + Math.abs(res[1].value).toString();
     }
 
@@ -325,6 +340,7 @@ function getEnPassantTargets(Pieces : Piece[]){
 }
 
 export function CalculatePositionFromFEN(fen : string){
+
     var inp=fen.split(" ");
     var inps=inp[0].split("/");
     var mat=[
@@ -344,7 +360,7 @@ export function CalculatePositionFromFEN(fen : string){
         y=0;
         for(let j of inps[x])
         {
-            if(j=="1" || j=="2" ||  j=="3" || j=="4" || j=="5" || j=="6" || j=="7" || j=="8")
+            if(j==="1" || j==="2" ||  j==="3" || j==="4" || j==="5" || j==="6" || j==="7" || j==="8")
             {
                 y+=parseInt(j);
             }
@@ -360,5 +376,42 @@ export function CalculatePositionFromFEN(fen : string){
 
     let boardState:Piece[] = [];
 
+    for(let i=0;i<8;i++){
+        for(let j=0;j<8;j++){
+            if(mat[i][j] === '0'){
+                continue;
+            }
+
+            let crntTeam = (mat[i][j] >= 'a' && mat[i][j] <= 'z')? TeamType.OPPONENT : TeamType.OUR;
+            let crntType = getPieceType(mat[i][j])
+
+            let newPiece : Piece = {
+                position: { x:i, y: j },
+                team : crntTeam,
+                type : crntType,
+                image : `assets/images/Chess_${mat[i][j].toLowerCase()}${crntTeam === TeamType.OPPONENT? 'd' : 'l'}t60.png`
+            }
+
+            boardState.push(newPiece);
+        }
+    }
+
+    return boardState;
     
+}
+
+function getPieceType(p: string){
+    if(p === 'k' || p === 'K'){
+        return PieceType.KING
+    }else if(p === 'n' || p === 'N'){
+        return PieceType.KNIGHT
+    }else if(p === 'b' || p === 'B'){
+        return PieceType.BISHOP
+    }else if(p === 'q' || p === 'Q'){
+        return PieceType.QUEEN
+    }else if(p === 'r' || p === 'R'){
+        return PieceType.ROOK
+    }else{
+        return PieceType.PAWN
+    }
 }

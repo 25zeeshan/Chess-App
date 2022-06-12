@@ -9,20 +9,18 @@ import { getUserDetail } from "../../Services/User";
 export default function Navigation() {
 
     const [username, setUsername] = useState<string | null>(null);
-    const [fullname, setFullname] = useState<string | null>(null);
 
     useEffect(() => {
+        console.log(window.location.pathname);
         const token = localStorage.getItem('token');
         if(token){
-            getUserDetail(token).then(user => {
-                setUsername(user.username);
-                //setFullname(user.first_name + user.last_name)
-            })
+            setUsername(localStorage.getItem('username'))
         }
     },[])
 
     function Logout(){
         localStorage.removeItem('token');
+        localStorage.removeItem('username');
         setUsername(null);
         window.location.href = '/Login';
     }
@@ -38,8 +36,8 @@ export default function Navigation() {
             <ul className="NavbarList">
                 {NavData.map((val, key) => {
                     return (
-                        <NavLink key={key} to={val.link}> 
-                        <li className="row">
+                        <NavLink key={key} to={val.link} > 
+                        <li className= {window.location.pathname === val.link? "row active" : "row"}>
                             
                             <div id="icon">{val.icon}</div>
                             <div id="title">{val.title}</div>

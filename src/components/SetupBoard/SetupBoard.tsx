@@ -128,7 +128,7 @@ export default function SetupBoard(props: any){
                     }
                 })
 
-                if(samePositionIndex != -1){
+                if(samePositionIndex !== -1){
                     const newPieces = [...updatedPieces];
                     newPieces[samePositionIndex] = newPiece;
 
@@ -177,11 +177,15 @@ export default function SetupBoard(props: any){
             const piece = pieces.find(p => samePosition(p.position, {x: i, y: j}));
             let image = piece ? piece.image : undefined;
 
-            const numericNotation = i==0 ? VERTICAL_AXIS[j] : '';
-            const alphabetNotaion = j==0 ? HORIZONTAL_AXIS[i] : '';
+            const numericNotation = i===0 ? VERTICAL_AXIS[j] : '';
+            const alphabetNotaion = j===0 ? HORIZONTAL_AXIS[i] : '';
 
             board.push(<Tile key={`${j},${i}`} number={num} image={image} numericNotation={numericNotation} alphabetNotaion={alphabetNotaion} />);
         }
+    }
+
+    function changeWKS(e : any){
+        console.log(e.target.value);
     }
 
     return(
@@ -221,7 +225,7 @@ export default function SetupBoard(props: any){
                         <div className="white color">
                             White
                             <div>
-                                <input type="checkbox" name="o-o" id="o-o-w" />
+                                <input type="checkbox" name="o-o" id="o-o-w" onChange={(e) => changeWKS(e)}/>
                                 <label htmlFor="o-o">O-O</label>
                             </div>
                             <div>
@@ -251,7 +255,7 @@ export default function SetupBoard(props: any){
                 </div>
 
                 
-                <Link to={{pathname: "/analysis" }} state={{boardState : pieces, currentMove : toMove}}><div className="load-btn">Load</div></Link>
+                <Link to={{pathname: "/analysis" }} state={{boardState : pieces, currentMove : toMove, FEN: FEN}}><div className="load-btn">Load</div></Link>
                 
 
             </div>

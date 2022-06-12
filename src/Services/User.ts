@@ -6,14 +6,19 @@ export function userLogin(email : string, password : string){
         password: password
     }).then(res => {
         return res.data;
-    }).catch(err => { console.log(err.message);
+    }).catch(err => { console.log(err.message); window.alert('Invalid Credentials');
     })
 }
 
-export function userRegister(data: Object){
-    console.log(data);
+export function userRegister(data: any){
     return axios.post('http://localhost:8000/register/', {
-        data
+        first_name : data.first_name,
+        last_name: data.last_name,
+        username : data.username,
+        email: data.email,
+        phone_no : data.phone_no,
+        date_of_birth : data.date_of_birth,
+        password : data.password
     }).then(res => {
         return res.data;
     }).catch(err => { console.log(err.message);
@@ -27,5 +32,5 @@ export function getUserDetail(token : string){
         }
     }).then(res => {
         return res.data;
-    })
+    }).catch(err => console.log(err.message))
 }
